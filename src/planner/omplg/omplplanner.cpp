@@ -1113,7 +1113,9 @@ namespace Kautham {
 
             SbVec3f *goalVertices = new SbVec3f[goalStates->getStateCount()];
             for (unsigned int i(0); i < goalStates->getStateCount(); ++i) {
-                projection->project(goalStates->getState(i),state);
+                auto foo = goalStates->getState(i);
+                state = Eigen::Map<const Eigen::VectorXd>(foo->as<ompl::base::RealVectorStateSpace::StateType>()->values, 48);
+                projection->project(foo,state);
 
                 goalVertices[i][0] = state[0];
                 goalVertices[i][1] = state[1];
